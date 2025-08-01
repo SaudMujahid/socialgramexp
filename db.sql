@@ -1,0 +1,53 @@
+-- USERS (already created, just for reference)
+CREATE TABLE IF NOT EXISTS Users (
+    User_id INT AUTO_INCREMENT PRIMARY KEY,
+    Username VARCHAR(50) NOT NULL UNIQUE,
+    Password VARCHAR(255) NOT NULL,
+    Email VARCHAR(100) NOT NULL UNIQUE,
+    Bio TEXT DEFAULT NULL,
+    Profile_pic TEXT DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- POSTS
+CREATE TABLE IF NOT EXISTS Posts (
+    Post_id INT AUTO_INCREMENT PRIMARY KEY,
+    User_id INT NOT NULL,
+    Caption TEXT,
+    Image_url TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (User_id) REFERENCES Users(User_id) ON DELETE CASCADE
+);
+
+-- COMMENTS
+CREATE TABLE IF NOT EXISTS Comments (
+    Comment_id INT AUTO_INCREMENT PRIMARY KEY,
+    Post_id INT NOT NULL,
+    User_id INT NOT NULL,
+    Text TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (Post_id) REFERENCES Posts(Post_id) ON DELETE CASCADE,
+    FOREIGN KEY (User_id) REFERENCES Users(User_id) ON DELETE CASCADE
+);
+
+-- LIKES
+CREATE TABLE IF NOT EXISTS Likes (
+    Like_id INT AUTO_INCREMENT PRIMARY KEY,
+    Post_id INT NOT NULL,
+    User_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (Post_id) REFERENCES Posts(Post_id) ON DELETE CASCADE,
+    FOREIGN KEY (User_id) REFERENCES Users(User_id) ON DELETE CASCADE,
+    UNIQUE (Post_id, User_id) -- to avoid duplicate likes
+);
+
+-- FOLLOW
+CREATE TABLE IF NOT EXISTS Follow (
+    Follower_id INT NOT NULL,
+    Following_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (Follower_id, Following_id),
+    FOREIGN KEY (Follower_id) REFERENCES Users(User_id) ON DELETE CASCADE,
+    FOREIGN KEY (Following_id) REFERENCES Users(User_id) ON DELETE CASCADE
+);
+
