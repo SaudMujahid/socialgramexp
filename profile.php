@@ -1,28 +1,7 @@
 <?php
-session_start();
 
-if (!isset($_SESSION['user_id'])) {
-  header('Location: login.php');
-  exit();
-}
-
-$host = 'localhost';
-$db   = 'socialgram';
-$user = 'root';
-$pass = '';
-$charset = 'utf8mb4';
-
-$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
-$options = [
-  PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-  PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-];
-
-try {
-  $pdo = new PDO($dsn, $user, $pass, $options);
-} catch (PDOException $e) {
-  die('Database connection failed: ' . $e->getMessage());
-}
+include 'includes/session.inc.php';
+include 'includes/connection.inc.php';
 
 $user_id = $_SESSION['user_id'];
 
@@ -33,8 +12,8 @@ $user = $userStmt->fetch();
 
 // Count stats
 $postCount = $pdo->query("SELECT COUNT(*) FROM Posts WHERE User_id = $user_id")->fetchColumn();
-$followerCount = 150; // placeholder
-$followingCount = 180; // placeholder
+$followerCount = 0; // placeholder
+$followingCount = 0; // placeholder
 
 // Fetch user posts
 $postsStmt = $pdo->prepare("SELECT Image_url FROM Posts WHERE User_id = ?");
@@ -52,7 +31,7 @@ $userPosts = $postsStmt->fetchAll();
 </head>
 <body>
   <nav class="navbar">
-    <div class="logo"><a href="index.php">Socialgram</a></div>
+    <div class="logo"><a>Socialgram</a></div>
     <input type="text" placeholder="Search">
     <div class="icons">
       <a href="index.php"><i class="fas fa-home"></i></a>
@@ -77,7 +56,9 @@ $userPosts = $postsStmt->fetchAll();
     <div class="profile-posts">
       <?php if (count($userPosts) > 0): ?>
         <?php foreach ($userPosts as $post): ?>
-          <img src="<?= htmlspecialchars($post['Image_url']) ?>" />
+<a href="post.php?post_id=<?= $post['Post_id'] ?>">
+  <img src="<?= htmlspecialchars($post['Image_url']) ?>" />
+</a>
         <?php endforeach; ?>
       <?php else: ?>
         <p style="text-align: center; padding: 20px;">You haven't uploaded any posts yet.</p>

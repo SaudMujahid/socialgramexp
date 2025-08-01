@@ -128,6 +128,7 @@ body {
 .profile-posts {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  justify-items: start;
   gap: 10px;
   padding: 20px;
   max-width: 800px;
@@ -136,10 +137,11 @@ body {
 
 .profile-posts img {
   width: 100%;
-  height: auto;
-  border-radius: 4px;
+  aspect-ratio: 1 / 1;
   object-fit: cover;
+  border-radius: 4px;
 }
+
 
 /* Responsive */
 @media (max-width: 550px) {
@@ -167,6 +169,46 @@ body {
     margin-bottom: 10px;
   }
 }
+/*post*/
+
+  .post-detail {
+    max-width: 600px;
+    margin: 40px auto;
+    background: #fff;
+    border: 1px solid #dbdbdb;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .post-detail img {
+    width: 100%;
+    display: block;
+  }
+  .post-detail .info {
+    padding: 15px;
+  }
+  .post-detail .info h3 {
+    margin-bottom: 10px;
+  }
+  .post-detail .info p {
+    margin: 5px 0;
+  }
+  .comments {
+    padding: 0 15px 15px;
+    border-top: 1px solid #eee;
+  }
+  .comments .comment {
+    margin-top: 10px;
+    font-size: 14px;
+  }
+  .back-link {
+    margin: 20px auto;
+    text-align: center;
+  }
+  .back-link a {
+    color: #3897f0;
+    text-decoration: none;
+  }
+
 
   /*settings*/
 
