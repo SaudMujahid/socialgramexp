@@ -16,7 +16,8 @@ $followerCount = 0; // placeholder
 $followingCount = 0; // placeholder
 
 // Fetch user posts
-$postsStmt = $pdo->prepare("SELECT Image_url FROM Posts WHERE User_id = ?");
+$postsStmt = $pdo->prepare("SELECT Post_id, Image_url FROM Posts WHERE User_id = ?");
+
 $postsStmt->execute([$user_id]);
 $userPosts = $postsStmt->fetchAll();
 ?>
@@ -57,7 +58,10 @@ $userPosts = $postsStmt->fetchAll();
       <?php if (count($userPosts) > 0): ?>
         <?php foreach ($userPosts as $post): ?>
 <a href="post.php?post_id=<?= $post['Post_id'] ?>">
+  <a href="post.php?post_id=<?= $post['Post_id'] ?>">
   <img src="<?= htmlspecialchars($post['Image_url']) ?>" />
+</a>
+
 </a>
         <?php endforeach; ?>
       <?php else: ?>

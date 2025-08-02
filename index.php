@@ -74,7 +74,10 @@ $posts = $stmt->fetchAll();
       <?php foreach ($posts as $post): ?>
         <div class="post">
           <div class="post-header"><span>👤 <?= htmlspecialchars($post['Username']) ?></span></div>
-          <img src="<?= htmlspecialchars($post['Image_url']) ?>" alt="Post">
+          <a href="post.php?post_id=<?= $post['Post_id'] ?>">
+  <img src="<?= htmlspecialchars($post['Image_url']) ?>" />
+</a>
+
           <div class="post-icons">
             <i class="far fa-heart"></i> <?= $post['LikeCount'] ?> Likes
             <i class="far fa-comment"></i>

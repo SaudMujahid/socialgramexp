@@ -210,6 +210,41 @@ body {
   }
 
 
+/*upload */
+  .upload-box {
+    max-width: 400px;
+    margin: 60px auto;
+    background: #fff;
+    border: 1px solid #dbdbdb;
+    border-radius: 8px;
+    padding: 20px;
+  }
+  .upload-box h2 {
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  .upload-box input[type="file"],
+  .upload-box textarea,
+  .upload-box button {
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+  .upload-box button {
+    background-color: #3897f0;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  .message {
+    text-align: center;
+    margin-top: 15px;
+    color: green;
+  }
+
+
   /*settings*/
 
   .settings-box {
