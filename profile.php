@@ -3,7 +3,9 @@
 include 'includes/session.inc.php';
 include 'includes/connection.inc.php';
 
-$user_id = $_SESSION['user_id'];
+//Check current user or searched user
+$user_id = isset($_GET['user_id']) ? $_GET['user_id'] : $_SESSION['user_id'];
+
 
 // Fetch user info
 $userStmt = $pdo->prepare("SELECT Username, Email FROM Users WHERE User_id = ?");
@@ -36,8 +38,11 @@ $userPosts = $postsStmt->fetchAll();
     <input type="text" placeholder="Search">
     <div class="icons">
       <a href="index.php"><i class="fas fa-home"></i></a>
+<?php if ($user_id == $_SESSION['user_id']): ?>
+  <a href="upload.php"><i class="fas fa-plus-square"></i></a>
+<?php endif; ?>
+
       <a href="messages.php"><i class="fas fa-paper-plane"></i></a>
-      <a href="upload.php"><i class="fas fa-plus-square"></i></a>
       <a href="explore.php"><i class="fas fa-compass"></i></a>
       <a href="profile.php"><i class="fas fa-user-circle"></i></a>
     </div>
@@ -50,7 +55,9 @@ $userPosts = $postsStmt->fetchAll();
         <h2><?= htmlspecialchars($user['Username']) ?></h2>
         <p><strong><?= $postCount ?></strong> posts | <strong><?= $followerCount ?></strong> followers | <strong><?= $followingCount ?></strong> following</p>
         <p>👋 Hello! This is my bio.</p>
+          <?php if($user_id == $_SESSION['user_id']): ?>
         <a href="settings.php" class="settings-link">⚙️ Settings</a>
+          <?php endif; ?>
       </div>
     </div>
 

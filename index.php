@@ -1,26 +1,9 @@
 <?php
 // Database connection
-$host = 'localhost';
-$db   = 'socialgram';
-$user = 'root'; // Change if different
-$pass = '';     // Change if different
-$charset = 'utf8mb4';
+include 'includes/connection.inc.php';
+//session check
+include 'includes/session.inc.php';
 
-$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
-$options = [
-    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-];
-
-try {
-    $pdo = new PDO($dsn, $user, $pass, $options);
-} catch (PDOException $e) {
-    die('Database connection failed: ' . $e->getMessage());
-}
-
-//session 
-
-session_start();
 $isLoggedIn = isset($_SESSION['user_id']);
 
 // Fetch posts with user, likes, comments
@@ -56,7 +39,9 @@ $posts = $stmt->fetchAll();
 <body>
 <nav class="navbar">
     <div class="logo"><a href="index.php">Socialgram</a></div>
-    <input type="text" placeholder="Search">
+<form action="search.php" method="GET" style="margin: 0;">
+  <input type="text" name="q" placeholder="Search" style="padding: 7px 12px; border: 1px solid #dbdbdb; border-radius: 4px; background-color: #efefef; width: 200px;">
+</form>
     <div class="icons">
       <a href="index.php"><i class="fas fa-home"></i></a>
       <a href="messages.php"><i class="fas fa-paper-plane"></i></a>
