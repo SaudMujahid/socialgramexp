@@ -44,13 +44,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
   <nav class="navbar">
-    <div class="logo"><a href="index.php">Socialgram</a></div>
+    <div class="logo"><a style="text-decoration: none;" href="index.php">Socialgram</a></div>
     <div class="icons">
-      <a href="index.php"><i class="fas fa-home"></i></a>
-      <a href="messages.php"><i class="fas fa-paper-plane"></i></a>
-      <a href="upload.php"><i class="fas fa-plus-square"></i></a>
-      <a href="explore.php"><i class="fas fa-compass"></i></a>
-      <a href="profile.php"><i class="fas fa-user-circle"></i></a>
+      <a title = "Home" href="index.php"><i class="fas fa-home"></i></a>
+      <a title="Explore" href="explore.php"><i class="fas fa-compass"></i></a>
+      <a title="Profile" href="profile.php"><i class="fas fa-user-circle"></i></a>
     </div>
   </nav>
 
