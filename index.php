@@ -1,12 +1,19 @@
 <?php
 // Database connection
 include 'includes/connection.inc.php';
-//session check
+// Session check
 include 'includes/session.inc.php';
 
 $isLoggedIn = isset($_SESSION['user_id']);
 
-// Fetch posts with user, likes, comments
+if (!$isLoggedIn) {
+  header('Location: login.php');
+  exit();
+}
+
+$user_id = $_SESSION['user_id'];
+
+// Fetch posts ONLY from followed users (and self)
 $sql = "
     SELECT 
         Posts.Post_id,
@@ -20,11 +27,15 @@ $sql = "
     LEFT JOIN Likes ON Posts.Post_id = Likes.Post_id
     LEFT JOIN Comments ON Posts.Post_id = Comments.Post_id
     LEFT JOIN Users AS CommentUsers ON Comments.User_id = CommentUsers.User_id
+    WHERE Posts.User_id = :user_id OR Posts.User_id IN (
+        SELECT Following_id FROM Follow WHERE Follower_id = :user_id
+    )
     GROUP BY Posts.Post_id
     ORDER BY Posts.created_at DESC
 ";
 
-$stmt = $pdo->query($sql);
+$stmt = $pdo->prepare($sql);
+$stmt->execute(['user_id' => $user_id]);
 $posts = $stmt->fetchAll();
 ?>
 
@@ -39,9 +50,9 @@ $posts = $stmt->fetchAll();
 <body>
 <nav class="navbar">
     <div class="logo"><a style="text-decoration: none;" href="index.php">Socialgram</a></div>
-<form action="search.php" method="GET" style="margin: 0;">
-  <input type="text" name="q" placeholder="Search" style="padding: 7px 12px; border: 1px solid #dbdbdb; border-radius: 4px; background-color: #efefef; width: 200px;">
-</form>
+    <form action="search.php" method="GET" style="margin: 0;">
+      <input type="text" name="q" placeholder="Search" style="padding: 7px 12px; border: 1px solid #dbdbdb; border-radius: 4px; background-color: #efefef; width: 200px;">
+    </form>
     <div class="icons">
       <a title="Home" href="index.php"><i class="fas fa-home"></i></a>
       <a title="Upload"  href="upload.php"><i class="fas fa-plus-square"></i></a>
@@ -49,40 +60,40 @@ $posts = $stmt->fetchAll();
       <a title="Profile" href="<?= $isLoggedIn ? 'profile.php' : 'login.php' ?>">
         <i class="fas fa-user-circle"></i>
       </a>
-
     </div>
-  </nav>
+</nav>
 
-  <div class="container">
-    <div class="posts">
-      <?php foreach ($posts as $post): ?>
-        <div class="post">
-          <div class="post-header"><span>👤 <?= htmlspecialchars($post['Username']) ?></span></div>
-          <a href="post.php?post_id=<?= $post['Post_id'] ?>">
-  <img src="<?= htmlspecialchars($post['Image_url']) ?>" />
-</a>
+<div class="container">
+  <div class="posts">
+    <?php foreach ($posts as $post): ?>
+      <div class="post">
+        <div class="post-header"><span>👤 <?= htmlspecialchars($post['Username']) ?></span></div>
+        <a href="post.php?post_id=<?= $post['Post_id'] ?>">
+          <img src="<?= htmlspecialchars($post['Image_url']) ?>" />
+        </a>
 
-          <div class="post-icons">
-            <i class="far fa-heart"></i> <?= $post['LikeCount'] ?> Likes
-            <i class="far fa-comment"></i>
-            <i class="far fa-paper-plane"></i>
-          </div>
-          <p><strong><?= htmlspecialchars($post['Username']) ?></strong> <?= htmlspecialchars($post['Caption']) ?></p>
-
-          <?php if (!empty($post['CommentList'])): ?>
-            <div class="comments">
-              <?php 
-                $comments = explode('||', $post['CommentList']);
-                foreach ($comments as $c): 
-                  list($text, $commentUser) = explode('|||', $c);
-              ?>
-                <p><strong><?= htmlspecialchars($commentUser) ?></strong> <?= htmlspecialchars($text) ?></p>
-              <?php endforeach; ?>
-            </div>
-          <?php endif; ?>
+        <div class="post-icons">
+          <i class="far fa-heart"></i> <?= $post['LikeCount'] ?> Likes
+          <i class="far fa-comment"></i>
+          <i class="far fa-paper-plane"></i>
         </div>
-      <?php endforeach; ?>
-    </div>
+        <p><strong><?= htmlspecialchars($post['Username']) ?></strong> <?= htmlspecialchars($post['Caption']) ?></p>
+
+        <?php if (!empty($post['CommentList'])): ?>
+          <div class="comments">
+            <?php 
+              $comments = explode('||', $post['CommentList']);
+              foreach ($comments as $c): 
+                list($text, $commentUser) = explode('|||', $c);
+            ?>
+              <p><strong><?= htmlspecialchars($commentUser) ?></strong> <?= htmlspecialchars($text) ?></p>
+            <?php endforeach; ?>
+          </div>
+        <?php endif; ?>
+      </div>
+    <?php endforeach; ?>
   </div>
+</div>
 </body>
 </html>
+
