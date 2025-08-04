@@ -9,6 +9,7 @@ if (!isset($_GET['post_id'])) {
 
 $post_id = $_GET['post_id'];
 $user_id = $_SESSION['user_id'];
+$back = $_GET['from'] === 'profile' ? 'profile.php' : 'index.php';
 
 // Handle comment submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['comment_text'])) {
@@ -109,7 +110,7 @@ $likeCount = $likeCountStmt->fetchColumn();
     </div>
   </div>
   <div class="back-link">
-    <a href="javascript:history.back()">&larr; Back</a>
+      <a href="<?= $back ?>">&larr; Back</a>
   </div>
 </body>
 </html>
