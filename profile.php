@@ -7,15 +7,44 @@ include 'includes/connection.inc.php';
 $user_id = isset($_GET['user_id']) ? $_GET['user_id'] : $_SESSION['user_id'];
 
 
+if (!$isOwnProfile) {
+  // Check if current user is following this user
+  $stmt = $pdo->prepare("SELECT * FROM Follow WHERE Follower_id = ? AND Following_id = ?");
+  $stmt->execute([$_SESSION['user_id'], $user_id]);
+  $isFollowing = $stmt->rowCount() > 0;
+
+  // Handle follow/unfollow actions
+  if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['follow'])) {
+      $pdo->prepare("INSERT INTO Follow (Follower_id, Following_id) VALUES (?, ?)")->execute([$_SESSION['user_id'], $user_id]);
+      $isFollowing = true;
+    } elseif (isset($_POST['unfollow'])) {
+      $pdo->prepare("DELETE FROM Follow WHERE Follower_id = ? AND Following_id = ?")->execute([$_SESSION['user_id'], $user_id]);
+      $isFollowing = false;
+    }
+  }
+}
+
 // Fetch user info
 $userStmt = $pdo->prepare("SELECT Username, Email FROM Users WHERE User_id = ?");
 $userStmt->execute([$user_id]);
 $user = $userStmt->fetch();
 
 // Count stats
-$postCount = $pdo->query("SELECT COUNT(*) FROM Posts WHERE User_id = $user_id")->fetchColumn();
-$followerCount = 0; // placeholder
-$followingCount = 0; // placeholder
+//show followers and following count
+// Count followers (users who follow this user)
+$followerCountStmt = $pdo->prepare("SELECT COUNT(*) FROM Follow WHERE Following_id = ?");
+$followerCountStmt->execute([$user_id]);
+$followerCount = $followerCountStmt->fetchColumn();
+
+// Count following (users this user follows)
+$followingCountStmt = $pdo->prepare("SELECT COUNT(*) FROM Follow WHERE Follower_id = ?");
+$followingCountStmt->execute([$user_id]);
+$followingCount = $followingCountStmt->fetchColumn();
+
+//follow and unfollow
+$isOwnProfile = ($user_id == $_SESSION['user_id']);
+$isFollowing = false;
 
 // Fetch user posts
 $postsStmt = $pdo->prepare("SELECT Post_id, Image_url FROM Posts WHERE User_id = ?");
@@ -58,17 +87,23 @@ $userPosts = $postsStmt->fetchAll();
           <?php if($user_id == $_SESSION['user_id']): ?>
         <a href="settings.php" class="settings-link">⚙️ Settings</a>
           <?php endif; ?>
+            <?php if (!$isOwnProfile): ?>
+    <form method="POST">
+      <?php if ($isFollowing): ?>
+        <button type="submit" name="unfollow" class="follow-btn unfollow">Unfollow</button>
+      <?php else: ?>
+        <button type="submit" name="follow" class="follow-btn">Follow</button>
+      <?php endif; ?>
+    </form>
+  <?php endif; ?>
       </div>
     </div>
 
     <div class="profile-posts">
       <?php if (count($userPosts) > 0): ?>
         <?php foreach ($userPosts as $post): ?>
-<a href="post.php?post_id=<?= $post['Post_id'] ?>">
   <a href="post.php?post_id=<?= $post['Post_id'] ?>">
   <img src="<?= htmlspecialchars($post['Image_url']) ?>" />
-</a>
-
 </a>
         <?php endforeach; ?>
       <?php else: ?>
