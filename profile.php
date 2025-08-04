@@ -26,7 +26,7 @@ if (!$isOwnProfile) {
 }
 
 // Fetch user info
-$userStmt = $pdo->prepare("SELECT Username, Email FROM Users WHERE User_id = ?");
+$userStmt = $pdo->prepare("SELECT Username, Email, Bio FROM Users WHERE User_id = ?");
 $userStmt->execute([$user_id]);
 $user = $userStmt->fetch();
 
@@ -48,10 +48,15 @@ $isFollowing = false;
 
 // Fetch user posts
 $postsStmt = $pdo->prepare("SELECT Post_id, Image_url FROM Posts WHERE User_id = ?");
-
 $postsStmt->execute([$user_id]);
 $userPosts = $postsStmt->fetchAll();
+// Count user posts
+$postStmt = $pdo->prepare("SELECT COUNT(*) FROM Posts WHERE User_id = ?");
+$postStmt->execute([$user_id]);
+$postCount = $postStmt->fetchColumn();
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -84,7 +89,7 @@ $userPosts = $postsStmt->fetchAll();
       <div class="profile-info">
         <h2><?= htmlspecialchars($user['Username']) ?></h2>
         <p><strong><?= $postCount ?></strong> posts | <strong><?= $followerCount ?></strong> followers | <strong><?= $followingCount ?></strong> following</p>
-        <p>👋 Hello! This is my bio.</p>
+          <p><?= nl2br(htmlspecialchars($user['Bio'])) ?></p>
           <?php if($user_id == $_SESSION['user_id']): ?>
         <a href="settings.php" class="settings-link">⚙️ Settings</a>
           <?php endif; ?>
