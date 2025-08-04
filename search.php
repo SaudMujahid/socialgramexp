@@ -23,14 +23,15 @@ if (isset($_GET['q'])) {
 </head>
 <body>
   <nav class="navbar">
-    <div class="logo"><a href="index.php">Socialgram</a></div>
+    <div class="logo"><a style="text-decoration:none;" href="index.php">Socialgram</a></div>
     <form method="GET" action="search.php">
       <input type="text" name="q" placeholder="Search users..." value="<?= htmlspecialchars($_GET['q'] ?? '') ?>">
     </form>
     <div class="icons">
-      <a href="index.php"><i class="fas fa-home"></i></a>
-      <a href="upload.php"><i class="fas fa-plus-square"></i></a>
-      <a href="profile.php"><i class="fas fa-user-circle"></i></a>
+      <a title="Home"  href="index.php"><i class="fas fa-home"></i></a>
+      <a title="Upload" href="upload.php"><i class="fas fa-plus-square"></i></a>
+      <a title="Explore" href="explore.php"><i class="fas fa-compass"></i></a>
+      <a title="Profile"  href="profile.php"><i class="fas fa-user-circle"></i></a>
     </div>
   </nav>
 

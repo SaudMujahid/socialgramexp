@@ -38,16 +38,15 @@ $posts = $stmt->fetchAll();
 </head>
 <body>
 <nav class="navbar">
-    <div class="logo"><a href="index.php">Socialgram</a></div>
+    <div class="logo"><a style="text-decoration: none;" href="index.php">Socialgram</a></div>
 <form action="search.php" method="GET" style="margin: 0;">
   <input type="text" name="q" placeholder="Search" style="padding: 7px 12px; border: 1px solid #dbdbdb; border-radius: 4px; background-color: #efefef; width: 200px;">
 </form>
     <div class="icons">
-      <a href="index.php"><i class="fas fa-home"></i></a>
-      <a href="messages.php"><i class="fas fa-paper-plane"></i></a>
-      <a href="upload.php"><i class="fas fa-plus-square"></i></a>
-      <a href="explore.php"><i class="fas fa-compass"></i></a>
-      <a href="<?= $isLoggedIn ? 'profile.php' : 'login.php' ?>">
+      <a title="Home" href="index.php"><i class="fas fa-home"></i></a>
+      <a title="Upload"  href="upload.php"><i class="fas fa-plus-square"></i></a>
+      <a title="Explore" href="explore.php"><i class="fas fa-compass"></i></a>
+      <a title="Profile" href="<?= $isLoggedIn ? 'profile.php' : 'login.php' ?>">
         <i class="fas fa-user-circle"></i>
       </a>
 

@@ -63,17 +63,18 @@ $userPosts = $postsStmt->fetchAll();
 </head>
 <body>
   <nav class="navbar">
-    <div class="logo"><a>Socialgram</a></div>
-    <input type="text" placeholder="Search">
+    <div class="logo"><a style="text-decoration:none;" href="index.php" >Socialgram</a></div>
+<form action="search.php" method="GET" style="margin: 0;">
+  <input type="text" name="q" placeholder="Search" style="padding: 7px 12px; border: 1px solid #dbdbdb; border-radius: 4px; background-color: #efefef; width: 200px;">
+</form>
     <div class="icons">
-      <a href="index.php"><i class="fas fa-home"></i></a>
+      <a href="index.php" title ="Home"><i class="fas fa-home"></i></a>
 <?php if ($user_id == $_SESSION['user_id']): ?>
-  <a href="upload.php"><i class="fas fa-plus-square"></i></a>
+  <a href="upload.php" title="Upload"><i class="fas fa-plus-square"></i></a>
 <?php endif; ?>
+      <a title="Explore" href="explore.php"><i class="fas fa-compass"></i></a>
 
-      <a href="messages.php"><i class="fas fa-paper-plane"></i></a>
-      <a href="explore.php"><i class="fas fa-compass"></i></a>
-      <a href="profile.php"><i class="fas fa-user-circle"></i></a>
+      <a href="profile.php" title="Profile"><i class="fas fa-user-circle"></i></a>
     </div>
   </nav>
 
@@ -107,7 +108,7 @@ $userPosts = $postsStmt->fetchAll();
 </a>
         <?php endforeach; ?>
       <?php else: ?>
-        <p style="text-align: center; padding: 20px;">You haven't uploaded any posts yet.</p>
+        <p style="text-align: center; padding: 20px;">Haven't uploaded any posts yet.</p>
       <?php endif; ?>
     </div>
   </div>
