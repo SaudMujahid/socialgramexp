@@ -3,7 +3,7 @@ include 'includes/session.inc.php';
 include 'includes/connection.inc.php';
 
 // Fetch all posts with user info
-$postsStmt = $pdo->query("SELECT Post_id, Image_url, Caption, Users.Username FROM Posts JOIN Users ON Posts.User_id = Users.User_id ORDER BY Posts.created_at DESC");
+$postsStmt = $pdo->query("SELECT Post_id, Image_url, Caption, Users.Username, Users.Profile_pic FROM Posts JOIN Users ON Posts.User_id = Users.User_id ORDER BY Posts.created_at DESC");
 $posts = $postsStmt->fetchAll();
 ?>
 
