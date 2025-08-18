@@ -20,6 +20,7 @@ $sql = "
         Posts.Caption,
         Posts.Image_url,
         Users.Username,
+        Users.Profile_pic,
         COUNT(DISTINCT Likes.Like_id) AS LikeCount,
         GROUP_CONCAT(CONCAT(Comments.Text, '|||', CommentUsers.Username) SEPARATOR '||') AS CommentList
     FROM Posts
@@ -67,7 +68,14 @@ $posts = $stmt->fetchAll();
   <div class="posts">
     <?php foreach ($posts as $post): ?>
       <div class="post">
-        <div class="post-header"><span>👤 <?= htmlspecialchars($post['Username']) ?></span></div>
+    <div class="post-header">
+      <?php if (!empty($post['Profile_pic'])): ?>
+        <img src="<?= htmlspecialchars($post['Profile_pic']) ?>" alt="Profile Picture" style="width:30px; height:30px; border-radius:50%; object-fit:cover; margin-right:8px;">
+      <?php else: ?>
+        <span style="font-size:20px; margin-right:8px;">👤</span>
+      <?php endif; ?>
+      <span><?= htmlspecialchars($post['Username']) ?></span>
+    </div>
         <a href="post.php?post_id=<?= $post['Post_id'] ?>">
           <img src="<?= htmlspecialchars($post['Image_url']) ?>" />
         </a>
