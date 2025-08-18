@@ -43,15 +43,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       echo "Profile picture updated!";
     }
 }  // Delete account
-  if (isset($_POST['delete_account'])) {
-    $pdo->prepare("DELETE FROM Comments WHERE User_id = ?")->execute([$user_id]);
-    $pdo->prepare("DELETE FROM Likes WHERE User_id = ?")->execute([$user_id]);
-    $pdo->prepare("DELETE FROM Posts WHERE User_id = ?")->execute([$user_id]);
+if (isset($_POST['delete_account'])) {
     $pdo->prepare("DELETE FROM Users WHERE User_id = ?")->execute([$user_id]);
     session_destroy();
     header('Location: login.php');
     exit();
-  }
+}
 }
 
 // Fetch user info
