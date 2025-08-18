@@ -44,6 +44,15 @@ body {
   cursor: pointer;
 }
 
+/* Style search bar */
+.navbar form input[type="text"] {
+  padding: 7px 12px;
+  border: 1px solid #dbdbdb;
+  border-radius: 4px;
+  background-color: #efefef;
+  width: 200px;
+}
+
 /* Main Container */
 .container {
   display: flex;
@@ -51,7 +60,6 @@ body {
   align-items: center;
   padding-top: 20px;
 }
-
 
 /* Posts */
 .posts {
@@ -74,11 +82,60 @@ body {
   border-bottom: 1px solid #efefef;
 }
 
-.post img {
+/* Post Images (exclude profile pics) */
+.post img:not(.post-profile-pic) {
   width: 100%;
   display: block;
 }
 
+/* Post user section (profile picture + username) */
+.post-user {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.post-user img.post-profile-pic {
+  width: 30px !important;
+  height: 30px !important;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 8px;
+}
+
+/* Comment section */
+.comment {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+  font-size: 13px;
+}
+
+.comment img.comment-profile-pic {
+  width: 20px !important;
+  height: 20px !important;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 6px;
+}
+
+.comment p {
+  margin: 0;
+}
+
+/* Default icon when no profile picture */
+.default-icon {
+  font-size: 20px;
+  margin-right: 8px;
+}
+
+.default-icon.small {
+  font-size: 14px;
+  margin-right: 6px;
+}
+
+/* Post icons */
 .post-icons {
   padding: 10px;
   display: flex;
@@ -102,15 +159,11 @@ body {
   margin: auto;
 }
 
-.profile-pic {
-  font-size: 64px;
-  width: 100px;
-  height: 100px;
-  background-color: #ddd;
+.profile-header img.profile-pic {
+  width: 100px !important;
+  height: 100px !important;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  object-fit: cover;
   margin-right: 40px;
 }
 
@@ -137,11 +190,9 @@ body {
 
 .profile-posts img {
   width: 100%;
- /* aspect-ratio: 1 / 1; */
   object-fit: cover;
   border-radius: 4px;
 }
-
 
 /* Responsive */
 @media (max-width: 550px) {
@@ -164,127 +215,142 @@ body {
     text-align: center;
   }
 
-  .profile-pic {
+  .profile-header img.profile-pic {
     margin-right: 0;
     margin-bottom: 10px;
   }
 }
-/*post*/
 
-  .post-detail {
-    max-width: 600px;
-    margin: 40px auto;
-    background: #fff;
-    border: 1px solid #dbdbdb;
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  .post-detail img {
-    width: 100%;
-    display: block;
-  }
-  .post-detail .info {
-    padding: 15px;
-  }
-  .post-detail .info h3 {
-    margin-bottom: 10px;
-  }
-  .post-detail .info p {
-    margin: 5px 0;
-  }
-  .comments {
-    padding: 0 15px 15px;
-    border-top: 1px solid #eee;
-  }
-  .comments .comment {
-    margin-top: 10px;
-    font-size: 14px;
-  }
-  .back-link {
-    margin: 20px auto;
-    text-align: center;
-  }
-  .back-link a {
-    color: #3897f0;
-    text-decoration: none;
-  }
+/* Post Detail Page */
+.post-detail {
+  max-width: 600px;
+  margin: 40px auto;
+  background: #fff;
+  border: 1px solid #dbdbdb;
+  border-radius: 8px;
+  overflow: hidden;
+}
 
+.post-detail img {
+  width: 100%;
+  display: block;
+}
 
-/*upload */
-  .upload-box {
-    max-width: 400px;
-    margin: 60px auto;
-    background: #fff;
-    border: 1px solid #dbdbdb;
-    border-radius: 8px;
-    padding: 20px;
-  }
-  .upload-box h2 {
-    margin-bottom: 15px;
-    text-align: center;
-  }
-  .upload-box input[type="file"],
-  .upload-box textarea,
-  .upload-box button {
-    width: 100%;
-    margin-top: 10px;
-    padding: 10px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-  }
-  .upload-box button {
-    background-color: #3897f0;
-    color: white;
-    border: none;
-    cursor: pointer;
-  }
-  .message {
-    text-align: center;
-    margin-top: 15px;
-    color: green;
-  }
+.post-detail .info {
+  padding: 15px;
+}
 
+.post-detail .info h3 {
+  margin-bottom: 10px;
+}
 
-  /*settings*/
+.post-detail .info p {
+  margin: 5px 0;
+}
 
-  .settings-box {
+.comments {
+  padding: 0 15px 15px;
+  border-top: 1px solid #eee;
+}
+
+.comments .comment {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.back-link {
+  margin: 20px auto;
+  text-align: center;
+}
+
+.back-link a {
+  color: #3897f0;
+  text-decoration: none;
+}
+
+/* Upload Box */
+.upload-box {
+  max-width: 400px;
+  margin: 60px auto;
+  background: #fff;
+  border: 1px solid #dbdbdb;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.upload-box h2 {
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.upload-box input[type="file"],
+.upload-box textarea,
+.upload-box button {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.upload-box button {
+  background-color: #3897f0;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.message {
+  text-align: center;
+  margin-top: 15px;
+  color: green;
+}
+
+/* Settings Box */
+.settings-box {
   max-width: 400px;
   margin: 50px auto;
   padding: 20px;
   background: #fff;
   border: 1px solid #dbdbdb;
   border-radius: 8px;
-  }
-  .settings-box form {
-    margin-bottom: 20px;
-  }
-  .settings-box textarea,
-  .settings-box input[type="file"] {
-    width: 100%;
-    margin-top: 10px;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  .settings-box button {
-    margin-top: 10px;
-    padding: 10px;
-    width: 100%;
-    border: none;
-    background-color: #3897f0;
-    color: white;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  .settings-box .danger {
-    background-color: #e63946;
-  }
-  .success {
-    color: green;
-    text-align: center;
-    margin-bottom: 10px;
-  }
-/*hover option */
+}
+
+.settings-box form {
+  margin-bottom: 20px;
+}
+
+.settings-box textarea,
+.settings-box input[type="file"] {
+  width: 100%;
+  margin-top: 10px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.settings-box button {
+  margin-top: 10px;
+  padding: 10px;
+  width: 100%;
+  border: none;
+  background-color: #3897f0;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.settings-box .danger {
+  background-color: #e63946;
+}
+
+.success {
+  color: green;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+/* Buttons Hover */
 .like-button,
 .comment-button,
 .delete-button {
@@ -310,7 +376,8 @@ body {
 .delete-button:hover {
   background-color: #c2182b;
 }
-/*follow and unfollow*/
+
+/* Follow / Unfollow Buttons */
 .follow-btn {
   padding: 8px 16px;
   background-color: #3897f0;

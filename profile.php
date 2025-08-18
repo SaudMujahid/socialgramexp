@@ -126,7 +126,7 @@ $userPosts = $postsStmt->fetchAll();
     <div class="profile-posts">       
       <?php if (count($userPosts) > 0): ?>         
         <?php foreach ($userPosts as $post): ?>   
-          <a href="post.php?post_id=<?= $post['Post_id'] ?>">   
+          <a href="post.php?post_id=<?= $post['Post_id'] ?>&from=profile">
             <img src="<?= htmlspecialchars($post['Image_url']) ?>" /> 
           </a>         
         <?php endforeach; ?>       

@@ -33,7 +33,7 @@ $posts = $postsStmt->fetchAll();
     <div class="profile-posts">
       <?php if (count($posts) > 0): ?>
         <?php foreach ($posts as $post): ?>
-          <a href="post.php?post_id=<?= $post['Post_id'] ?>">
+          <a href="post.php?post_id=<?= $post['Post_id'] ?>&from=explore">
             <img src="<?= htmlspecialchars($post['Image_url']) ?>" alt="Post by <?= htmlspecialchars($post['Username']) ?>">
           </a>
         <?php endforeach; ?>
