@@ -94,11 +94,12 @@ $userPosts = $postsStmt->fetchAll();
             <img src="<?= htmlspecialchars($user['Profile_pic']) ?>" 
                  alt="Profile Picture" 
                  style="width:120px; height:120px; border-radius:50%; object-fit:cover;">
-        <?php else: ?>
-            <img src="images/default-profile.png" 
-                 alt="Default Profile" 
-                 style="width:120px; height:120px; border-radius:50%; object-fit:cover;">
-        <?php endif; ?>
+            <?php else: ?>
+                  <span style="font-size: 80px; display:inline-block; width:120px; height:120px; 
+                     border-radius:50%; background:#eee; display:flex; 
+                     align-items:center; justify-content:center;">
+            👤
+        </span>        <?php endif; ?>
       </div>       
       <div class="profile-info">         
         <h2><?= htmlspecialchars($user['Username']) ?></h2>         
